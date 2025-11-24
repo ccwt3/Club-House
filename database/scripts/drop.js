@@ -2,7 +2,7 @@ const { Client } = require("pg");
 require("dotenv").config();
 
 const SQL = `
-  DROP 
+  DROP TABLE roles, users, posts;
 `;
 
 async function main() {

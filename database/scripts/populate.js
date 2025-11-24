@@ -1,7 +1,42 @@
 const { Client } = require("pg");
 require("dotenv").config();
 
-const SQL = ``;
+const SQL = `
+  CREATE TABLE IF NOT EXISTS roles (
+    id integer GENERATED ALWAYS AS IDENTITY,
+    role_name text,
+    PRIMARY KEY(id)
+  );
+
+  CREATE TABLE IF NOT EXISTS users (
+    id integer GENERATED ALWAYS AS IDENTITY,
+    name text NOT NULL,
+    last_name text NOT NULL,
+    username text UNIQUE NOT NULL,
+    password text NOT NULL,
+    PRIMARY KEY (id),
+    role_id integer 
+      REFERENCES roles (id) 
+      ON DELETE SET NULL
+  );
+
+  CREATE TABLE IF NOT EXISTS posts (
+    id integer GENERATED ALWAYS AS IDENTITY,
+    title text NOT NULL,
+    message text NOT NULL,
+    upload_date date NOT NULL,
+    PRIMARY KEY (id),
+    author_id integer 
+      REFERENCES users (id)
+      ON DELETE CASCADE
+  );
+
+  INSERT INTO roles (role_name)
+  VALUES 
+    ('admin'),
+    ('club'),
+    ('guest');
+`;
 
 async function main() {
   console.log("starting...");
@@ -12,7 +47,10 @@ async function main() {
 
   const client = new Client({
     connectionString,
-    ssl: { rejectUnauthorized: false },
+    ssl:
+      process.env.NODE_ENV === "production"
+        ? { rejectUnauthorized: false }
+        : false,
   });
 
   try {
