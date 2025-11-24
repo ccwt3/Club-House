@@ -6,7 +6,8 @@
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "dev": "node --watch app.js",
-    "db:populate": "node ./database/scripts/populate.js"
+    "db:populate": "node ./database/scripts/populate.js",
+    "db:drop": "node ./database/scripts/drop.js"
   },
   "repository": {
     "type": "git",

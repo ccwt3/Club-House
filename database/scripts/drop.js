@@ -13,8 +13,7 @@ async function main() {
     `postgresql://${process.env.DB_USER}:${process.env.DB_PASSWORD}@${process.env.DB_HOST}:${process.env.DB_PORT}/${process.env.DB}`;
 
   const client = new Client({
-    connectionString,
-    ssl: { rejectUnauthorized: false },
+    connectionString
   });
 
   try {
