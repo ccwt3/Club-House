@@ -1,7 +1,19 @@
 const pool = require("./pool");
 
 async function addUser(name, last_name, username, password) {
-  const result = await pool.query(
+  const check = await pool.query(
+    `
+    SELECT * FROM users
+    WHERE username = $1  
+  `,
+    [username]
+  );
+
+  if (check.rows.length > 0) {
+    return false;
+  }
+
+  const { rows } = await pool.query(
     `
     INSERT INTO users (name, last_name, username, password, role_id)
     VALUES
@@ -11,7 +23,7 @@ async function addUser(name, last_name, username, password) {
     [name, last_name, username, password, 3]
   );
 
-  return result;
+  return rows[0].username;
 }
 
 async function getUser(username) {
@@ -116,3 +128,14 @@ async function editPost(message, title, id) {
 
   return rowCount;
 }
+
+module.exports = {
+  addUser,
+  getUser,
+  deleteUser,
+  editUser,
+  addPost,
+  getAllPosts,
+  deletePost,
+  editPost,
+};
