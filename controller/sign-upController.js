@@ -14,12 +14,12 @@ async function signUpPost(req, res, next) {
   try {
     const hashedPassword = await bcrypt.hash(password, 10);
     const user = await db.addUser(name, lastName, username, hashedPassword);
+    
     if (!user) {
+      // redirect to register and add a message of username already taken
       return res.send("Username already taken");
     }
-
-    console.log(user)
-
+    
     res.redirect("/log-in");
   } catch (error) {
     console.error(error);

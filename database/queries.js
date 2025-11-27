@@ -58,7 +58,7 @@ async function editUser(userData, username) {
   const newValues = Object.values(userData);
 
   const conflict = columns.some((col) => forbidden.includes(col));
-  if (conflict) throw new Error("You can't do this fella");
+  if (conflict) throw new Error("You dont have access to role changing");
 
   try {
     const setClause = columns
@@ -76,8 +76,8 @@ async function editUser(userData, username) {
     const { rowCount } = await pool.query(query, params);
     return rowCount;
   } catch (err) {
-    console.log(err);
-    return;
+    console.error(err);
+    throw new Error("Ups, having problems with the DB");
   }
 }
 
