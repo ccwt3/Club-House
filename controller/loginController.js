@@ -1,5 +1,16 @@
-function loginGet (req, res) {
-  res.send("Hello login");
+const passport = require("passport");
+const db = require("../database/queries");
+
+function loginGet(req, res) {
+  res.render("log-in");
 }
 
-module.exports = loginGet;
+const loginPost = passport.authenticate("local", {
+  successRedirect: "/",
+  failureRedirect: "/log-in",
+});
+
+module.exports = {
+  loginGet,
+  loginPost,
+};

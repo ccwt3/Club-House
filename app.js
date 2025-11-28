@@ -1,8 +1,14 @@
+// Librarys
 const express = require("express");
 const path = require("path");
+const passport = require("passport");
+
+// modules
 const appRouter = require("./routes/appRouter");
 const loginRouter = require("./routes/log-in");
 const signupRouter = require("./routes/sign-up");
+const passportAuth = require("./middleware/authentication/auth");
+const serializeFunctions = require("./middleware/authentication/serial");
 
 const app = express();
 
@@ -13,12 +19,26 @@ app.set("views", path.join(__dirname, "/views"));
 const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 
+// passport and session middleware
+const session = require("express-session");
+app.use(
+  session({
+    secret: "aña",
+    resave: false,
+    saveUninitialized: false,
+  })
+);
+app.use(passport.authenticate("session"));
 app.use(express.urlencoded({ extended: true }));
 
-// Routes
-app.use("/", appRouter); // Home page
-app.use("/sign-up", signupRouter); //Register page
-app.use("/log-in", loginRouter); //Login page
+passport.use(passportAuth);
+passport.serializeUser(serializeFunctions.serializeUser);
+passport.deserializeUser(serializeFunctions.deserializeUser);
+
+// Routes middleware
+app.use("/", appRouter); 
+app.use("/sign-up", signupRouter); 
+app.use("/log-in", loginRouter); 
 
 // cathing error middleware
 app.use((err, req, res, next) => {

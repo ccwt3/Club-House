@@ -35,7 +35,9 @@ async function getUser(username) {
     [username]
   );
 
-  return rows;
+  if (rows.length === 0) return null;
+
+  return rows[0];
 }
 
 async function deleteUser(username) {
