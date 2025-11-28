@@ -23,7 +23,7 @@ async function addUser(name, last_name, username, password) {
     [name, last_name, username, password, 3]
   );
 
-  return rows[0].id;
+  return rows[0].id; //! revisa aqui y arriba, asi como el controller de register
 }
 
 async function getUser(username) {
@@ -40,14 +40,14 @@ async function getUser(username) {
   return rows[0];
 }
 
-async function getSessionInfo(username) {
+async function getSessionInfo(id) {
   const { rows } = await pool.query(
     `
     SELECT name, last_name, username, role_id
     FROM users
-    WHERE username = $1
+    WHERE id = $1
   `,
-    [username]
+    [id]
   );
 
   if (rows.length === 0) return null;
@@ -55,20 +55,20 @@ async function getSessionInfo(username) {
   return rows[0];
 }
 
-async function deleteUser(username) {
+async function deleteUser(id) {
   const { rowCount } = await pool.query(
     `
     DELETE FROM users
-    WHERE username = $1;  
+    WHERE id = $1;  
   `,
-    [username]
+    [id]
   );
 
   return rowCount;
 }
 
 // expects an object with the modified columns and new data
-async function editUser(userData, username) {
+async function editUser(userData, id) { //! check if this works with id or username
   const forbidden = ["role_id", "id"];
 
   const columns = Object.keys(userData);
@@ -85,10 +85,10 @@ async function editUser(userData, username) {
     const query = `
       UPDATE users
       SET ${setClause}
-      WHERE username = $1
+      WHERE id = $1
     `;
 
-    const params = [username, ...newValues];
+    const params = [id, ...newValues];
 
     const { rowCount } = await pool.query(query, params);
     return rowCount;

@@ -5,3 +5,4 @@
 ## TESTS:
 1. Register a username
 2. Register omar to test same username twice
+3.
