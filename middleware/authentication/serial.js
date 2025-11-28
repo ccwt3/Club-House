@@ -1,4 +1,4 @@
-const db = require("../../database/queries")
+const db = require("../../database/queries");
 
 function serializeUser(user, done) {
   done(null, user.username);
@@ -6,17 +6,17 @@ function serializeUser(user, done) {
 
 async function deserializeUser(username, done) {
   try {
-    const user = await db.getUser(username);
+    const user = await db.getSessionInfo(username);
     if (user === null) {
-      throw new Error("Not user found")
+      throw new Error("Not user found");
     }
-    done(null, user)
-  } catch(err) {
-    done(err)
+    done(null, user);
+  } catch (err) {
+    done(err);
   }
 }
 
 module.exports = {
   serializeUser,
-  deserializeUser
-}
+  deserializeUser,
+};

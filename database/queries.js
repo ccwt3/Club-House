@@ -18,12 +18,12 @@ async function addUser(name, last_name, username, password) {
     INSERT INTO users (name, last_name, username, password, role_id)
     VALUES
       ($1, $2, $3, $4, $5)
-    RETURNING username;
+    RETURNING id;
   `,
     [name, last_name, username, password, 3]
   );
 
-  return rows[0].username;
+  return rows[0].id;
 }
 
 async function getUser(username) {
@@ -31,6 +31,21 @@ async function getUser(username) {
     `
     SELECT * FROM users
     WHERE username = $1;
+  `,
+    [username]
+  );
+
+  if (rows.length === 0) return null;
+
+  return rows[0];
+}
+
+async function getSessionInfo(username) {
+  const { rows } = await pool.query(
+    `
+    SELECT name, last_name, username, role_id
+    FROM users
+    WHERE username = $1
   `,
     [username]
   );
@@ -134,6 +149,7 @@ async function editPost(message, title, id) {
 module.exports = {
   addUser,
   getUser,
+  getSessionInfo,
   deleteUser,
   editUser,
   addPost,

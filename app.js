@@ -9,6 +9,7 @@ const loginRouter = require("./routes/log-in");
 const signupRouter = require("./routes/sign-up");
 const passportAuth = require("./middleware/authentication/auth");
 const serializeFunctions = require("./middleware/authentication/serial");
+const session = require("./middleware/authentication/sessionConfig");
 
 const app = express();
 
@@ -20,14 +21,7 @@ const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 
 // passport and session middleware
-const session = require("express-session");
-app.use(
-  session({
-    secret: "aña",
-    resave: false,
-    saveUninitialized: false,
-  })
-);
+app.use(session);
 app.use(passport.authenticate("session"));
 app.use(express.urlencoded({ extended: true }));
 
