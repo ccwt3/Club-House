@@ -1,6 +1,5 @@
 1. Improve the error messages when failing validation at Validation check
 2. Add a sign-out function
-
 ---
 ## TESTS:
 1. Register a username

@@ -5,37 +5,42 @@ module.exports = [
     .trim()
     .escape()
     .notEmpty()
-    .withMessage("Fill")
+    .withMessage("Field required")
+    .bail()
     .matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/)
-    .withMessage("dude you know your name does not have special characters"),
+    .withMessage("No special characters allowed"),
 
   body("last_name")
     .trim()
     .escape()
     .notEmpty()
-    .withMessage("Billions must fill")
+    .withMessage("Field required")
+    .bail()
     .matches(/^[A-Za-zÁÉÍÓÚáéíóúÑñ ]+$/)
-    .withMessage("dude you know what you did"),
+    .withMessage("No special characters allowed"),
 
   body("username")
     .trim()
     .escape()
     .notEmpty()
-    .withMessage("Must fill this crap")
+    .withMessage("Field required")
+    .bail()
     .matches(/^[A-Za-z0-9._]+$/)
-    .withMessage("You can't add special characters"),
+    .withMessage(`Only "." and "_" are allowed`),
 
   body("password")
     .notEmpty()
-    .withMessage("Must fill this crap")
+    .withMessage("Field required")
+    .bail()
     .isLength({ min: 5 })
     .withMessage("Password must be at least 5 characters"),
 
   body("passwordConfirmation")
     .notEmpty()
-    .withMessage("Must fill this crap")
+    .withMessage("Field required")
+    .bail()
     .custom((value, { req }) => {
       return value === req.body.password;
     })
-    .withMessage("Passwords differ"),
+    .withMessage("Passwords are different"),
 ];
