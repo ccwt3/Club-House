@@ -4,9 +4,7 @@ module.exports = (req, res, next) => {
   const errors = validationResult(req);
 
   if (!errors.isEmpty()) {
-    return res.render("error", {
-      message: `development screen error`
-    });
+    return res.render("log-in", { err: errors.mapped() });
   }
 
   next();

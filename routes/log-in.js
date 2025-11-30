@@ -1,7 +1,7 @@
 const { Router } = require("express");
 const loginController = require("../controller/loginController");
 const loginValidator = require("../middleware/validation/loginValidator");
-const check = require("../middleware/validation/validationCheck");
+const check = require("../middleware/validation/loginValidationCheck");
 const loginRouter = Router();
 
 loginRouter.get("/", loginController.loginGet);

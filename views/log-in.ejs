@@ -4,17 +4,33 @@
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
   <title>Login</title>
+  <link rel="stylesheet" href="login.css">
 </head>
 <body>
   <main>
     <form action="/log-in" method="post">
       <div>
-        <label for="username">Username: </label>
+        <label for="username">
+          Username: 
+          <% if(err && err.username) { %>
+            <p class="error__message"><%= err.username.msg %></p>
+          <% } else if (err[0] == "Incorrect Username") { %>
+            <p class="error__message"><%= err %></p>
+          <% } %>
+          
+        </label>
         <input type="text" name="username" id="username">
       </div>
 
       <div>
-        <label for="password">Password: </label>
+        <label for="password">
+          Password: 
+          <% if(err && err.password) { %>
+            <p class="error__message"><%= err.password.msg %></p>
+          <% } else if (err[0] == "Incorrect Password") { %>
+            <p class="error__message"><%= err %></p>
+          <% } %>
+        </label>
         <input type="password" name="password" id="password">
       </div>
 

@@ -2,6 +2,9 @@ const db = require("../database/queries");
 const bcrypt = require("bcryptjs");
 
 function signUpGet(req, res) {
+  if (req.user) {
+    return res.redirect("/");
+  }
   res.render("sign-up", { err: null });
 }
 

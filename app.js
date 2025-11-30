@@ -2,6 +2,7 @@
 const express = require("express");
 const path = require("path");
 const passport = require("passport");
+const flash = require("connect-flash");
 
 // modules
 const appRouter = require("./routes/appRouter");
@@ -21,6 +22,7 @@ const assetsPath = path.join(__dirname, "public");
 app.use(express.static(assetsPath));
 
 // passport and session middleware
+app.use(flash());
 app.use(session);
 app.use(passport.authenticate("session"));
 app.use(express.urlencoded({ extended: true }));
